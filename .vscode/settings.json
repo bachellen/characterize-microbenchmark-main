@@ -1,0 +1,16 @@
+{
+    "files.associations": {
+        "types.h": "c",
+        "*.txt": "cpp",
+        "macros.h": "c",
+        "dataset.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "disabled",
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "/Users/bachalsahali/Downloads/characterize-microbenchmark-main/build",
+            "binaryPath": "/Users/bachalsahali/Downloads/characterize-microbenchmark-main/build/blackscholes",
+            "binaryArgs": []
+        }
+    ]
+}
