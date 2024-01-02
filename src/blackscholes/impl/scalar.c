@@ -79,7 +79,7 @@ float CNDF (float InputX)
 
 
 float blackScholes(float sptprice, float strike, float rate, float volatility,
-                   float otime, int otype)
+                   float otime, char otype)
 {
     float OptionPrice;
 
@@ -136,7 +136,7 @@ float blackScholes(float sptprice, float strike, float rate, float volatility,
     NofXd2 = CNDF(d2);
 
     FutureValueX = strike * (exp(-(rate)*(otime)));        
-    if (otype == 0) {            
+    if (otype == "C") {            
         OptionPrice = (sptprice * NofXd1) - (FutureValueX * NofXd2);
     } else { 
         NegNofXd1 = (1.0 - NofXd1);
