@@ -4,7 +4,8 @@
         "*.txt": "cpp",
         "macros.h": "c",
         "dataset.h": "c",
-        "vmath.h": "c"
+        "vmath.h": "c",
+        "emmintrin.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled",
     "makefile.launchConfigurations": [

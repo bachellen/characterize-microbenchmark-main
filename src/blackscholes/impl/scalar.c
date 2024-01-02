@@ -15,7 +15,7 @@
 
 /* Include application-specific headers */
 #include "include/types.h"
-#include "common/vmath.h"
+// #include "common/vmath.h"
 // #include "include/dataset.h"
 #define inv_sqrt_2xPI 0.39894228040143270286
 
