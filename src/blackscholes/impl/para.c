@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <pthread.h>
-
+#include <string.h>
 /* Include common headers */
 #include "common/macros.h"
 #include "common/types.h"
@@ -78,7 +78,7 @@ float CNDF_para (float InputX)
 
 
 float blackScholes_para(float sptprice, float strike, float rate, float volatility,
-                   float otime, char otype)
+                   float otime, char otype,float timet )
 {
     float OptionPrice;
 
@@ -103,7 +103,8 @@ float blackScholes_para(float sptprice, float strike, float rate, float volatili
     float NofXd2;
     float NegNofXd1;
     float NegNofXd2;    
-    
+    int type = ( tolower ( otype ) == 'p')? 1 : 0;
+
     xStockPrice = sptprice;
     xStrikePrice = strike;
     xRiskFreeRate = rate;
@@ -135,7 +136,7 @@ float blackScholes_para(float sptprice, float strike, float rate, float volatili
     NofXd2 = CNDF_para(d2);
 
     FutureValueX = strike * (exp(-(rate)*(otime)));        
-    if (tolower(otype) == 'c') {            
+    if (type == 0) {            
         OptionPrice = (sptprice * NofXd1) - (FutureValueX * NofXd2);
     } else { 
         NegNofXd1 = (1.0 - NofXd1);
@@ -161,9 +162,9 @@ void* parallelBlackScholes(void* args) {
   float* optionPrices = malloc(num_stocks * sizeof(float));
   /* Calculate the number of elements per thread */
   for (size_t i = 0; i < num_stocks; ++i) {
-          optionPrices[i] = blackScholes_para(sptPrice[i], strike[i], rate[i], volatility[i], otime[i], otype[i]);
+          optionPrices[i] = blackScholes_para(sptPrice[i], strike[i], rate[i], volatility[i], otime[i], otype[i],0);
       }
-    return optionPrices;
+  memcpy(output, optionPrices, num_stocks * sizeof(float));
 }
 
 /* Alternative Implementation */
