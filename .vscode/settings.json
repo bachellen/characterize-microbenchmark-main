@@ -7,7 +7,10 @@
         "vmath.h": "c",
         "emmintrin.h": "c",
         "cmath": "c",
-        "complex": "c"
+        "complex": "c",
+        "__locale": "c",
+        "chrono": "c",
+        "functional": "c"
     },
     "C_Cpp.errorSquiggles": "disabled",
     "makefile.launchConfigurations": [
