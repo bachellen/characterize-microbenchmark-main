@@ -12,7 +12,7 @@
 /* Include common headers */
 #include "common/macros.h"
 #include "common/types.h"
-
+#include <ctype.h>
 /* Include application-specific headers */
 #include "include/types.h"
 // #include "common/vmath.h"
@@ -136,7 +136,7 @@ float blackScholes(float sptprice, float strike, float rate, float volatility,
     NofXd2 = CNDF(d2);
 
     FutureValueX = strike * (exp(-(rate)*(otime)));        
-    if (otype == "C") {            
+    if (tolower(otype) == 'c') {            
         OptionPrice = (sptprice * NofXd1) - (FutureValueX * NofXd2);
     } else { 
         NegNofXd1 = (1.0 - NofXd1);

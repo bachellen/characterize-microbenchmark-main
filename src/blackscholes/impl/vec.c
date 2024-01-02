@@ -12,7 +12,7 @@
 /* Include common headers */
 #include "common/macros.h"
 #include "common/types.h"
-
+#include <ctype.h>
 /* Include application-specific headers */
 #include "include/types.h"
 #include <immintrin.h>
@@ -97,7 +97,7 @@ float vectorized_BlackScholes(__m256 sptprice, __m256 strike, __m256 rate, __m25
     float FutureValueX_scalar = strike[0] * expf(-rate[0] * otime[0]);
 
     float OptionPrice;
-    if (otype == 'C') {
+    if (tolower(otype) == 'c') {
         OptionPrice = (sptprice[0] * NofXd1) - (FutureValueX_scalar * NofXd2);
     } else {
         float NegNofXd1 = 1.0f - NofXd1;
