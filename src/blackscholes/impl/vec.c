@@ -9,6 +9,8 @@
 /* Standard C includes */
 #include <stdlib.h>
 #include <math.h> 
+#include <string.h>
+
 /* Include common headers */
 #include "common/macros.h"
 #include "common/types.h"
@@ -119,6 +121,7 @@ void* impl_vector(void* args)
     float* volatility = arguments->volatility;
     float* otime = arguments->otime;
     char* otype = arguments->otype;
+    float* output = arguments->output;
 
     size_t alignment = 32;   // Align to 32 bytes for AVX2
 
@@ -132,12 +135,14 @@ void* impl_vector(void* args)
         __m256 volatilityVec = _mm256_loadu_ps(&volatility[i]);
         __m256 otimeVec = _mm256_loadu_ps(&otime[i]);
 
-  //   __m256i xmm_optionPrice = blackScholesSSE(xmm_sptPrice, xmm_strike, xmm_rate, xmm_volatility, xmm_otime, xmm_otype);
-        
-        // _mm256_storeu_ps(&optionPrices[i], 100);
+        float optionPriceVec = vectorized_BlackScholes(sptPriceVec, strikeVec, rateVec, volatilityVec, otimeVec, otype[0]);
+        // Store the result in the output array
+        optionPrices[i] = optionPriceVec;    
+        // _mm256_storeu_ps(&optionPrices[i], optionPriceVec);
 
   }
-  //  _mm_free(optionPrices);
+   memcpy(output, optionPrices, num_stocks * sizeof(float));
+   _mm_free(optionPrices);
   // return optionPrices;
   return NULL;
 #elif defined(__aarch__) || defined(__aarch64__) || defined(__arm64__)

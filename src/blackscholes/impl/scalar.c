@@ -13,10 +13,11 @@
 #include "common/macros.h"
 #include "common/types.h"
 #include <ctype.h>
+#include <string.h>
+
 /* Include application-specific headers */
 #include "include/types.h"
-// #include "common/vmath.h"
-// #include "include/dataset.h"
+
 #define inv_sqrt_2xPI 0.39894228040143270286
 
 float CNDF (float InputX) 
@@ -63,11 +64,9 @@ float CNDF (float InputX)
     xLocal_2 = xLocal_2 + xLocal_3;
     xLocal_3 = xK2_5 * 1.330274429;
     xLocal_2 = xLocal_2 + xLocal_3;
-
     xLocal_1 = xLocal_2 + xLocal_1;
     xLocal   = xLocal_1 * xNPrimeofX;
     xLocal   = 1.0 - xLocal;
-
     OutputX  = xLocal;
     
     if (sign) {
@@ -79,10 +78,10 @@ float CNDF (float InputX)
 
 
 float blackScholes(float sptprice, float strike, float rate, float volatility,
-                   float otime, char otype)
+                   float otime, char otype, float timet)
 {
     float OptionPrice;
-
+    int type = ( tolower ( otype ) == 'p')? 1 : 0;
     // local private working variables for the calculation
     float xStockPrice;
     float xStrikePrice;
@@ -90,7 +89,6 @@ float blackScholes(float sptprice, float strike, float rate, float volatility,
     float xVolatility;
     float xTime;
     float xSqrtTime;
-
     float logValues;
     float xLogTerm;
     float xD1; 
@@ -136,7 +134,7 @@ float blackScholes(float sptprice, float strike, float rate, float volatility,
     NofXd2 = CNDF(d2);
 
     FutureValueX = strike * (exp(-(rate)*(otime)));        
-    if (tolower(otype) == 'c') {            
+    if (type == 0) {            
         OptionPrice = (sptprice * NofXd1) - (FutureValueX * NofXd2);
     } else { 
         NegNofXd1 = (1.0 - NofXd1);
@@ -159,12 +157,14 @@ void* impl_scalar(void* args)
   float* volatility = arguments->volatility;
   float* otime = arguments->otime;
   char* otype = arguments->otype;
+  float* output = arguments->output;
 
   float* optionPrices = malloc(num_stocks * sizeof(float));
 
   for (size_t i = 0; i < num_stocks; i++)
   {
-    optionPrices[i] = blackScholes(sptPrice[i], strike[i], rate[i], volatility[i], otime[i], otype[i]);
+    optionPrices[i] = blackScholes(sptPrice[i], strike[i], rate[i], volatility[i], otime[i], otype[i],0);
   }
-  return optionPrices;
+  memcpy(output, optionPrices, num_stocks * sizeof(float));
+return output;  
 }
