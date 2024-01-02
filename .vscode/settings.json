@@ -3,7 +3,8 @@
         "types.h": "c",
         "*.txt": "cpp",
         "macros.h": "c",
-        "dataset.h": "c"
+        "dataset.h": "c",
+        "vmath.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled",
     "makefile.launchConfigurations": [

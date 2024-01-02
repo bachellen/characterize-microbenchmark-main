@@ -11,7 +11,7 @@
 
 /* Include application-specific headers */
 #include "include/types.h"
-
+// #include "common/vmath.h"
 void* impl_parallel(void* args);
 /* Define the maximum number of threads */
 #define MAX_THREADS 4
@@ -71,9 +71,9 @@ void* impl_parallel(void* args) {
   /* Process the data in the specified range */
   for (size_t i = 0; i < num_stocks; i++) {
     /* Perform Black-Scholes calculation */
-    output[i] = parallelBlackScholes(sptPrice[i], strike[i], rate[i], volatility[i], otime[i], otype[i], num_stocks);
+   parallelBlackScholes(sptPrice, strike, rate, volatility, otime, otype,output, num_stocks);
   }
 
   /* Return the result (optional) */
-  return NULL;
+  return output;
 }
