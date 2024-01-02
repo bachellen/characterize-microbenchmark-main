@@ -11,7 +11,6 @@
 #include <math.h> 
 #include <string.h>
 #include <stdio.h>
-#include <time.h>
 /* Include common headers */
 #include "common/macros.h"
 #include "common/types.h"
@@ -254,7 +253,6 @@ void* impl_vector(void* args)
 
     size_t alignment = 32;   // Align to 32 bytes for AVX2
     size_t num_full_iterations = num_stocks / 8;
-  
   float* optionPrices = (float*)_mm_malloc(num_stocks * sizeof(float) + alignment - 1, alignment);
   for (size_t i = 0; i < num_full_iterations; i += 8)
   {
